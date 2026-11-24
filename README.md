@@ -131,15 +131,6 @@ Also sets `temperature: 0` and `response_format: {"type": "json_object"}`.
 - **`GET /api/products` also accepts `status=`** for the UI's status filter.
 - **Same SKU twice in one job:** both rows processed and counted; last one wins in the catalogue.
 
-## What's unfinished
-
-- **Real LLM not tested end-to-end in the test suite.** Client is tested against a local stand-in (request format, 429 handling, network errors). Run with your own key to verify.
-- **Frontend tested manually**, not with a headless browser. 360px layout and keyboard nav checked by hand.
-- **Metrics reset on restart** — kept in memory only.
-- **A crash can repeat an in-flight LLM call** (never a finished one, at most `LLM_CONCURRENCY` of them).
-- **No job list endpoint, cancel, or auth.**
-- **Search is `LIKE '%q%'`** — fine at current scale, DESIGN.md covers the 5M row plan.
-- **Prompt batching** (multiple products per LLM call) described in DESIGN.md but not built.
 
 ## AI tools
 
