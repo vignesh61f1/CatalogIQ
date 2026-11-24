@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CatalogIQ</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>CatalogIQ</h1>
+    <p id="health" class="muted">Connecting…</p>
+  </header>
+
+  <main>
+    <section aria-labelledby="upload-heading">
+      <h2 id="upload-heading">1. Upload listings</h2>
+      <form id="upload-form">
+        <label for="csv-file">CSV file with columns <code>sku</code>, <code>raw_title</code>,
+          <code>raw_description</code> (optional)</label>
+        <div class="row">
+          <input type="file" id="csv-file" accept=".csv,text/csv" required>
+          <button type="submit" id="upload-button">Upload and enrich</button>
+        </div>
+      </form>
+      <p id="upload-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section aria-labelledby="job-heading" id="job-section" hidden>
+      <h2 id="job-heading">2. Job progress</h2>
+      <p>Job <code id="job-id"></code> is <strong id="job-status"></strong></p>
+      <progress id="job-progress" max="1" value="0" aria-label="Job progress"></progress>
+      <p id="job-percent" class="muted"></p>
+      <dl class="counts">
+        <div><dt>Total</dt><dd id="job-total">0</dd></div>
+        <div><dt>Done</dt><dd id="job-done">0</dd></div>
+        <div><dt>Failed</dt><dd id="job-failed">0</dd></div>
+        <div><dt>Cache hits</dt><dd id="job-cache-hits">0</dd></div>
+      </dl>
+      <p id="job-announce" class="visually-hidden" role="status" aria-live="polite"></p>
+    </section>
+
+    <section aria-labelledby="catalogue-heading">
+      <h2 id="catalogue-heading">3. Catalogue</h2>
+      <form id="filters" class="filters" role="search">
+        <div>
+          <label for="search">Search titles</label>
+          <input type="search" id="search" placeholder="e.g. butter" autocomplete="off">
+        </div>
+        <div>
+          <label for="category-filter">Category</label>
+          <select id="category-filter"><option value="">All categories</option></select>
+        </div>
+        <div>
+          <label for="status-filter">Status</label>
+          <select id="status-filter">
+            <option value="">Any status</option>
+            <option value="enriched">Enriched</option>
+            <option value="approved">Approved</option>
+            <option value="failed">Failed</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+        <button type="button" id="refresh-button">Refresh</button>
+      </form>
+
+      <p id="catalogue-message" role="status" aria-live="polite" class="muted"></p>
+      <ul id="product-list" class="product-list"></ul>
+
+      <nav class="pager" aria-label="Catalogue pages">
+        <button type="button" id="prev-page">Previous</button>
+        <span id="page-label"></span>
+        <button type="button" id="next-page">Next</button>
+      </nav>
+    </section>
+  </main>
+
+  <dialog id="review-dialog" aria-labelledby="review-heading">
+    <form id="review-form" method="dialog">
+      <h2 id="review-heading">Review product</h2>
+      <p>SKU <code id="review-sku"></code> · <span id="review-status" class="badge"></span></p>
+      <p id="review-error" class="error" role="alert" hidden></p>
+
+      <div class="side-by-side">
+        <div>
+          <h3>Raw listing</h3>
+          <dl>
+            <dt>Title</dt><dd id="review-raw-title" class="raw"></dd>
+            <dt>Description</dt><dd id="review-raw-description" class="raw"></dd>
+          </dl>
+        </div>
+        <div>
+          <h3>Cleaned</h3>
+          <label for="review-title">Title</label>
+          <input type="text" id="review-title" required>
+          <label for="review-category">Category</label>
+          <select id="review-category" required></select>
+          <label for="review-tags">Tags (comma separated, up to 5)</label>
+          <input type="text" id="review-tags">
+          <p>Brand: <span id="review-brand"></span></p>
+        </div>
+      </div>
+
+      <p id="review-message" class="error" role="alert"></p>
+      <div class="row end">
+        <button type="button" id="review-cancel">Cancel</button>
+        <button type="submit" id="review-save">Save and approve</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
