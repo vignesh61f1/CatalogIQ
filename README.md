@@ -16,7 +16,7 @@ Design writeup and architecture diagram: [DESIGN.md](DESIGN.md)
 Python 3.9+. No pip install needed.
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/vignesh61f1/CatalogIQ.git
 cd CatalogIQ
 python -m catalogiq
 ```
